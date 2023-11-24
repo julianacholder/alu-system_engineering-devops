@@ -1,6 +1,29 @@
-#!/usr/bin/env bash
-# installs nginx
-apt-get -y update
-apt-get -y install nginx
-echo "Holberton School" > /var/www/html/index.nginx-debian.html
-service nginx start
+#!/bin/bash
+
+# Update the package list
+sudo apt-get update
+
+# Install Nginx
+sudo apt-get install -y nginx
+
+# Create a basic HTML page with the required string
+echo "<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Holberton School</title>
+</head>
+<body>
+    <h1>Holberton School</h1>
+    <p>Welcome to the Nginx server on web-01!</p>
+</body>
+</html>" | sudo tee /var/www/html/index.html
+
+# Make sure Nginx is listening on port 80
+sudo sed -i 's/^\s*listen\s*80;/listen 80;/g' /etc/nginx/sites-available/default
+
+# Reload Nginx configuration
+sudo /etc/init.d/nginx reload
+
+# Display a message indicating successful configuration
+echo "Nginx has been installed and configured. Visit http://your_server_ip/ to see the Holberton School page."
+
